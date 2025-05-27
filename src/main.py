@@ -2,7 +2,7 @@ import sys
 import os
 from formats.json_handler import read_json, write_json
 from formats.yaml_handler import read_yaml, write_yaml
-from formats.xml_handler import read_xml
+from formats.xml_handler import read_xml, write_xml
 
 def main():
     if len(sys.argv) != 3:
@@ -34,13 +34,16 @@ def main():
             print(f"Nieobsługiwany format wejściowy: {input_ext}")
             sys.exit(1)
 
-        # Zapis danych (jeszcze tylko JSON/YAML obsługiwany)
+        # Zapis danych
         if output_ext == ".json":
             write_json(data, output_path)
             print("Dane zapisano do pliku JSON.")
         elif output_ext in [".yml", ".yaml"]:
             write_yaml(data, output_path)
             print("Dane zapisano do pliku YAML.")
+        elif output_ext == ".xml":
+            write_xml(data, output_path)
+            print("Dane zapisano do pliku XML.")
         else:
             print(f"Nieobsługiwany format wyjściowy: {output_ext}")
 
