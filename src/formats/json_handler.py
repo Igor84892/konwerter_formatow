@@ -13,3 +13,4 @@ def write_json(data, path):
             json.dump(data, f, indent=2, ensure_ascii=False)
     except Exception as e:
         raise ValueError(f"Błąd zapisu pliku JSON: {e}")
+
