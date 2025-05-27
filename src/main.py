@@ -1,6 +1,7 @@
 import sys
 import os
 from formats.json_handler import read_json, write_json
+from formats.yaml_handler import read_yaml
 
 def main():
     if len(sys.argv) != 3:
@@ -21,14 +22,18 @@ def main():
         if input_ext == ".json":
             data = read_json(input_path)
             print("✅ Wczytano JSON.")
-
-            if output_ext == ".json":
-                write_json(data, output_path)
-                print("✅ Dane zapisano do pliku JSON.")
-            else:
-                print("⚠️ Na razie obsługiwany tylko zapis do JSON.")
+        elif input_ext in [".yml", ".yaml"]:
+            data = read_yaml(input_path)
+            print("✅ Wczytano YAML.")
         else:
-            print("⚠️ Nieobsługiwany format wejściowy:", input_ext)
+            print(f"⚠️ Nieobsługiwany format wejściowy: {input_ext}")
+            sys.exit(1)
+
+        if output_ext == ".json":
+            write_json(data, output_path)
+            print("✅ Dane zapisano do pliku JSON.")
+        else:
+            print(f"⚠️ Na razie obsługiwany tylko zapis do JSON (nie {output_ext})")
 
     except Exception as e:
         print(f"❌ Błąd: {e}")
