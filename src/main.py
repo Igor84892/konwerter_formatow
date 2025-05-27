@@ -1,6 +1,6 @@
 import sys
 import os
-import json
+from formats.json_handler import read_json, write_json
 
 def main():
     if len(sys.argv) != 3:
@@ -15,19 +15,23 @@ def main():
         sys.exit(1)
 
     input_ext = os.path.splitext(input_path)[1].lower()
+    output_ext = os.path.splitext(output_path)[1].lower()
 
     try:
         if input_ext == ".json":
-            with open(input_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-            print("✅ JSON poprawnie wczytany:")
-            print(data)
+            data = read_json(input_path)
+            print("✅ Wczytano JSON.")
+
+            if output_ext == ".json":
+                write_json(data, output_path)
+                print("✅ Dane zapisano do pliku JSON.")
+            else:
+                print("⚠️ Na razie obsługiwany tylko zapis do JSON.")
         else:
-            print(f"⚠️ Nieobsługiwany format wejściowy: {input_ext}")
-            sys.exit(1)
+            print("⚠️ Nieobsługiwany format wejściowy:", input_ext)
 
     except Exception as e:
-        print(f"❌ Błąd podczas wczytywania pliku: {e}")
+        print(f"❌ Błąd: {e}")
         sys.exit(1)
 
 if __name__ == "__main__":
