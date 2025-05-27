@@ -4,6 +4,7 @@ from formats.json_handler import read_json, write_json
 from formats.yaml_handler import read_yaml, write_yaml
 from formats.xml_handler import read_xml, write_xml
 import os
+import threading
 
 def konwertuj():
     input_path = entry_input.get()
@@ -42,6 +43,9 @@ def konwertuj():
     except Exception as e:
         messagebox.showerror("Błąd", str(e))
 
+def uruchom_watkow():
+    threading.Thread(target=konwertuj).start()
+
 def wybierz_wejsciowy():
     file_path = filedialog.askopenfilename()
     if file_path:
@@ -67,6 +71,6 @@ entry_output = tk.Entry(root, width=40)
 entry_output.grid(row=1, column=1)
 tk.Button(root, text="Zapisz jako...", command=wybierz_wyjsciowy).grid(row=1, column=2)
 
-tk.Button(root, text="Konwertuj", command=konwertuj, width=20).grid(row=2, column=1, pady=20)
+tk.Button(root, text="Konwertuj", command=uruchom_watkow, width=20).grid(row=2, column=1, pady=20)
 
 root.mainloop()
