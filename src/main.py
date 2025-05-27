@@ -1,5 +1,6 @@
 import sys
 import os
+import json
 
 def main():
     if len(sys.argv) != 3:
@@ -14,10 +15,21 @@ def main():
         sys.exit(1)
 
     input_ext = os.path.splitext(input_path)[1].lower()
-    output_ext = os.path.splitext(output_path)[1].lower()
 
-    print(f"📥 Plik wejściowy: {input_path} ({input_ext})")
-    print(f"📤 Plik wyjściowy: {output_path} ({output_ext})")
+    try:
+        if input_ext == ".json":
+            with open(input_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            print("✅ JSON poprawnie wczytany:")
+            print(data)
+        else:
+            print(f"⚠️ Nieobsługiwany format wejściowy: {input_ext}")
+            sys.exit(1)
+
+    except Exception as e:
+        print(f"❌ Błąd podczas wczytywania pliku: {e}")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
+
